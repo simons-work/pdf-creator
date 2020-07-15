@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfCreator.Library", "PdfCreator.Library\PdfCreator.Library.csproj", "{3EABE284-3A27-404C-A100-1E42DDE04428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfCreator.Tests", "PdfCreator.Tests\PdfCreator.Tests.csproj", "{03A7969D-6546-4BDD-A771-95F2C092BB25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EABE284-3A27-404C-A100-1E42DDE04428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EABE284-3A27-404C-A100-1E42DDE04428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EABE284-3A27-404C-A100-1E42DDE04428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EABE284-3A27-404C-A100-1E42DDE04428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A7969D-6546-4BDD-A771-95F2C092BB25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A7969D-6546-4BDD-A771-95F2C092BB25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A7969D-6546-4BDD-A771-95F2C092BB25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A7969D-6546-4BDD-A771-95F2C092BB25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A741BFD3-0C84-423B-AB41-CF0E00DED6B8}
+	EndGlobalSection
+EndGlobal
