@@ -55,6 +55,9 @@ I've gone over the 4 hour time limit suggested so might submit this as is but ..
 Other failings I can think of:
 
 Not disposing of the XmlDocument object correctly at moment.
+
 Have cloned the 2 setup methods from Console App into the one of the Unit tests TestSetup methods which isn't very DRY
+
 Not sure if making most of the participating objects singletons is what you do with Command design pattern. Normally e.g. in bank account, the Withdrawal command would be instantied with the data it needed. So an instance would be constructed and at some point destroyed
+
 I think the singleton approach for all the commands was to leverage functionality to have them all Register themselves automatically when the application starts up so that by time the application starts there is a map of command name -> command instance to execute the behaviour
