@@ -83,30 +83,23 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Second_Para_With_No_Justify_Style_When_Para_With_Empty_Content_And_NoFill_Command_Used()
         {
-            // The thinking behind the nofill command is that it must have to close an existing container first
-            // as I think it needs to start a new paragraph because if you were in middle of paragraph which was by virtue of fill command set to be justify, you'd need to start
-            // a new line / new para at the very least to be able to see the difference in justification style
-
             var commands = new string[] { ".paragraph", ".nofill", "some text" };
 
             var result = _sut.Execute(commands);
 
-            // TODO: Fix the code as putting para inside para doesn't affect pdf output but it's not as efficient as it could be 
             Assert.AreEqual(@"<body><p></p><p>some text </p></body>", result);
         }
 
         [TestMethod]
         public void Should_Return_Second_Para_With_Justify_Style_When_Para_With_Content_And_Fill_Command_Used()
         {
-            // The thinking behind the nofill command is that it must have to close an existing container first
-            // as I think it needs to start a new paragraph because if you were in middle of paragraph which was by virtue of fill command set to be justify, you'd need to start
-            // a new line / new para at the very least to be able to see the difference in justification style
             var commands = new string[] { ".paragraph", "initial text", ".fill", "some text" };
 
             var result = _sut.Execute(commands);
 
             Assert.AreEqual(@"<body><p>initial text </p><p style=""text-align: justify;"">some text </p></body>", result);
         }
+
 
         [TestMethod]
         public void Should_Return_Para_Containing_Span_Tag_When_Para_And_Italic_Command_Used()
