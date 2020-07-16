@@ -21,9 +21,11 @@ namespace PdfCreator.Library.Commands
         {
             XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
             _htmlDocument.AddDocumentChildNode(element, true);
+            // not really necessary for the output as the pdf creator copes with funny xhtml such as <p/> but this forces it to be <p></p> and only needed if 
+            // someone did a .nofill after an empty paragraph which is the default for a new empty para anyway so a bit pointless!
+            element.IsEmpty = false; 
         }
 
-        private Guid _id = Guid.NewGuid();
         private IHtmlDocument _htmlDocument;
     }
 }

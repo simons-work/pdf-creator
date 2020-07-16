@@ -19,7 +19,6 @@ namespace PdfCreator.Library.Commands
             _htmlDocument.CloseCurrentContainerNode();
         }
 
-        private Guid _id = Guid.NewGuid();
         private IHtmlDocument _htmlDocument;
     }
 }

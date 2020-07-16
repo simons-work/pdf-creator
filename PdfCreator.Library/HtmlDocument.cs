@@ -8,7 +8,7 @@ namespace PdfCreator.Library
         public void Initialise()
         {
             _document = new XmlDocument();
-            _document.LoadXml("<body/>");
+            _document.LoadXml("<body></body>");
             _currentContainerNode = _document.DocumentElement;
             CurrentIndentation = 0;
         }

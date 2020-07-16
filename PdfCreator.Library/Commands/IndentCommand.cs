@@ -49,7 +49,6 @@ namespace PdfCreator.Library.Commands
             return _htmlDocument.CurrentIndentation * _appConfiguration.IndentMultiplierForMarginSize;
         }
 
-        private Guid _id = Guid.NewGuid();
         private IHtmlDocument _htmlDocument;
         private readonly IAppConfiguration _appConfiguration;
     }

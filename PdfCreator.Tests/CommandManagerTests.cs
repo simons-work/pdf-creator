@@ -10,6 +10,18 @@ using System;
 
 namespace PdfCreator.Tests
 {
+    /// <summary>
+    /// Integration tests for CommandManager
+    /// </summary>
+    /// <remarks>
+    /// Note: sut stands for Subject Under Test
+    /// 
+    /// One thing about most of these tests is that wherever there is content e.g. inside the span or para tags, it always includes a trailing space
+    /// This was to cope with the example where in middle of sentence a word is italicised and from looking at the sample input file, it wasn't clear if space characters exist on the ends
+    /// of the lines. It would be frustrating for the user to have to remember to leave a trailing space on a word they italicised for example so i choose to do that for them.
+    /// However this creates a problem where a bolded word is followed by a comma probably without intention of a space so maybe the system shouldn't automatically add the space
+    /// </remarks>
+
     [TestClass]
     public class CommandManagerTests
     {
@@ -56,16 +68,45 @@ namespace PdfCreator.Tests
         }
 
         [TestMethod]
-        public void Should_Return_Para_With_No_Justify_Style_When_Para_And_NoFill_Command_Used()
+        public void Should_Return_Second_Para_With_No_Justify_Style_When_Para_With_Content_And_NoFill_Command_Used()
         {
+            // The thinking behind the nofill command is that it must have to close an existing container first
+            // as I think it needs to start a new paragraph because if you were in middle of paragraph which was by virtue of fill command set to be justify, you'd need to start
+            // a new line / new para at the very least to be able to see the difference in justification style
+            var commands = new string[] { ".paragraph", "initial text", ".nofill", "some text" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><p>initial text </p><p>some text </p></body>", result);
+        }
+
+        [TestMethod]
+        public void Should_Return_Second_Para_With_No_Justify_Style_When_Para_With_Empty_Content_And_NoFill_Command_Used()
+        {
+            // The thinking behind the nofill command is that it must have to close an existing container first
+            // as I think it needs to start a new paragraph because if you were in middle of paragraph which was by virtue of fill command set to be justify, you'd need to start
+            // a new line / new para at the very least to be able to see the difference in justification style
+
             var commands = new string[] { ".paragraph", ".nofill", "some text" };
 
             var result = _sut.Execute(commands);
 
             // TODO: Fix the code as putting para inside para doesn't affect pdf output but it's not as efficient as it could be 
-            Assert.AreEqual(@"<body><p><p>some text </p></p></body>", result);
+            Assert.AreEqual(@"<body><p></p><p>some text </p></body>", result);
         }
 
+        [TestMethod]
+        public void Should_Return_Second_Para_With_Justify_Style_When_Para_With_Content_And_Fill_Command_Used()
+        {
+            // The thinking behind the nofill command is that it must have to close an existing container first
+            // as I think it needs to start a new paragraph because if you were in middle of paragraph which was by virtue of fill command set to be justify, you'd need to start
+            // a new line / new para at the very least to be able to see the difference in justification style
+            var commands = new string[] { ".paragraph", "initial text", ".fill", "some text" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><p>initial text </p><p style=""text-align: justify;"">some text </p></body>", result);
+        }
 
         [TestMethod]
         public void Should_Return_Para_Containing_Span_Tag_When_Para_And_Italic_Command_Used()
@@ -84,8 +125,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            // Not show that <body> is allowd to be self closing tag but have tested that the HtmlToPdf library is happy with it and this is probably due to using XmlDocument to generate the Html
-            Assert.AreEqual(@"<body />", result);
+            Assert.AreEqual(@"<body></body>", result);
         }
 
         [TestMethod]

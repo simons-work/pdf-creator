@@ -9,6 +9,10 @@ namespace PdfCreator.Tests
     [TestClass]
     public class HtmlToPdfConverterTests
     {
+        /// <summary>
+        /// Integration tests for HtmlToPdfConverter
+        /// </summary>
+        /// <remarks>Note: sut stands for Subject Under Test</remarks>
         [TestMethod]
         [TestCategory("Integration")]
         public void Should_Return_Non_Empty_ByteArray_When_Convert_Called()
@@ -26,12 +30,11 @@ namespace PdfCreator.Tests
 
         [TestMethod]
         [TestCategory("Integration")]
-        public void Should_Return_Non_Empty_ByteArray_When_Convert_Called_With_Single_Body_Tag()
+        public void Should_Return_Non_Empty_ByteArray_When_Convert_Called_With_Empty_Body_Tag()
         {
             var sut = new HtmlToPdfConverter();
 
-            // I know this is not legal html5 but just wanted to see what the bare minimum this library copes with
-            var pdfByteArray = sut.Convert("<body/>");
+            var pdfByteArray = sut.Convert("<body></body>");
 
             Assert.IsNotNull(pdfByteArray);
             Assert.IsTrue(pdfByteArray.Length > 1000);

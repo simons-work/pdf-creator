@@ -29,7 +29,7 @@ Contains the logical layer as described below
 Responsible for reading/writing the input file / pdf output file to disk and has no other logic except to call other classes as described below
 
 #### Class CommandManager ####
-Responsible for implementing the 'Host/Controller' behaviour in the Command Design pattern. Basically manages all the Command objects and also the 'Receiver' telling it when to initialise, or return it's output'. Essentially it's just a loop over the supplied lines of data'
+Responsible for implementing the 'Host/Controller' behaviour in the Command Design pattern. Basically manages all the Command objects and also the 'Receiver' object (HtmlDocument) telling it when to initialise, or return it's output'. Essentially it's just a loop over the supplied lines of data'
 
 #### Classes: Command(s) implement ICommand #### 
 Basically one of these for each command in the requirements plus a made up one called ContentCommand to handle a line of data. As name implies they implement
@@ -37,7 +37,7 @@ the 'command' of the Command Design pattern... so they know what to do to the 'R
 
 #### Class: HtmlDocument #### 
 Responsible for building up an internal htmlDocument string as result of the Commands running. Wasn't sure if worth using 3rd party library like Aspose Html stuff so just went rightly or wrongly with XmlDocument as does seem to output suitable html or at least enough for this application. Appreciate there's difference between Html and XHtml and self closing tags etc'
-Also keeps track of a pointer to Html container elements e.g. <p>, <span> as these are used as parent containers for the text content or other elements
+Also keeps track of a pointer to Html container elements e.g. Para, Span as these are used as parent containers for the text content or other elements
 
 #### Class: HtmlToPdfConverter #### 
 Responsible for generating a pdf byte array from a html string
@@ -48,6 +48,13 @@ I did write the tests for the HtmlToPdfConverter first before I had a console pr
 
 The other class is just the tests for CommandManager as that hits a lot of the other classes
 
-It does produce the output you asked for but not sure how brittle it is as I haven't finished writing all the tests for the edge case. 
-Have done the obvious ones like passing in null's, empty arrays, empty strings, etc  . 
+It does produce the output you asked for but not sure how brittle it is as I haven't finished writing all the tests for the edge cases. 
+Have done the obvious ones like passing in null's, empty arrays, empty strings, etc 
 Note I think there's small bug in that the paragraph containers get embedded inside each other which doesn't seem to affect the output but is next on my list to fix but I've gone over the 4 hour time limit suggested so might submit this as is
+
+Other failings I can think of:
+
+Not disposing of the XmlDocument object correctly at moment.
+Have cloned the 2 setup methods from Console App into the one of the Unit tests TestSetup methods which isn't very DRY
+Not sure if making most of the participating objects singletons is what you do with Command design pattern. Normally e.g. in bank account, the Withdrawal command would be instantied with the data it needed. So an instance would be constructed and at some point destroyed
+I think the singleton approach for all the commands was to leverage functionality to have them all Register themselves automatically when the application starts up so that by time the application starts there is a map of command name -> command instance to execute the behaviour

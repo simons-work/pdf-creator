@@ -19,11 +19,11 @@ namespace PdfCreator.Library.Commands
 
         void ICommand.Execute(params string[] args)
         {
+            _htmlDocument.CloseCurrentContainerNode();
             XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
             _htmlDocument.AddDocumentChildNode(element, true);
         }
 
-        private Guid _id = Guid.NewGuid();
         private IHtmlDocument _htmlDocument;
     }
 }

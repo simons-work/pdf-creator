@@ -8,6 +8,8 @@ namespace PdfCreator.Library.Commands
     public class FillCommand : ICommand
     {
         public string Name { get => ".fill"; }
+        public string HtmlTagToEmit { get => "p"; }
+
         public string HtmlTagStyles { get => "text-align: justify"; }
 
         public FillCommand(IHtmlDocument htmlDocument)
@@ -18,11 +20,20 @@ namespace PdfCreator.Library.Commands
         void ICommand.Execute(params string[] args)
         {
             XmlElement currentContainer = _htmlDocument.CurrentContainer;
+            
+            if (!string.IsNullOrEmpty(currentContainer.InnerXml)) 
+            {
+                _htmlDocument.CloseCurrentContainerNode();
+                XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
+                _htmlDocument.AddDocumentChildNode(element, true);
+            }
+
+            // Grab the container again as will have changed if the AddDocumentChildNode was invoked above
+            currentContainer = _htmlDocument.CurrentContainer;
             string existingAttribute = currentContainer.GetAttribute("style");
             currentContainer.SetAttribute("style", string.Join(";", HtmlTagStyles, existingAttribute));
         }
 
-        private Guid _id = Guid.NewGuid();
         private IHtmlDocument _htmlDocument;
     }
 }

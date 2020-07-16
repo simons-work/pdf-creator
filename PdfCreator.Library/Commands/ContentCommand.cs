@@ -23,7 +23,6 @@ namespace PdfCreator.Library.Commands
             }
         }
 
-        private Guid _id = Guid.NewGuid();
         private IHtmlDocument _htmlDocument;
     }
 }
