@@ -25,6 +25,7 @@ namespace PdfCreator.Library.Commands
         {
             if (args.Length > 0)
             {
+                _htmlDocument.CloseCurrentContainerNode();
                 XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
 
                 string existingAttribute = element.GetAttribute("style");

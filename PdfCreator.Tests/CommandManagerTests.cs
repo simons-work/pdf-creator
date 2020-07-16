@@ -100,6 +100,25 @@ namespace PdfCreator.Tests
             Assert.AreEqual(@"<body><p>initial text </p><p style=""text-align: justify;"">some text </p></body>", result);
         }
 
+        [TestMethod]
+        public void Should_Return_Second_Para_With_Indented_Style_When_Para_With_Content_And_Indent_Command_Used()
+        {
+            var commands = new string[] { ".paragraph", "initial text", ".indent +1", "some text" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><p>initial text </p><p style=""margin-left:4em;"">some text </p></body>", result);
+        }
+
+        [TestMethod]
+        public void Should_Return_Third_Para_With_UnIndented_Style_When_Para_With_Content_And_Indent_Then_Unindent_Command_Used()
+        {
+            var commands = new string[] { ".paragraph", "initial text", ".indent +1", "some text", ".indent -1", "more text" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><p>initial text </p><p style=""margin-left:4em;"">some text </p><p style=""margin-left:0em;"">more text </p></body>", result);
+        }
 
         [TestMethod]
         public void Should_Return_Para_Containing_Span_Tag_When_Para_And_Italic_Command_Used()
@@ -128,7 +147,6 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            // Not show that <body> is allowd to be self closing tag but have tested that the HtmlToPdf library is happy with it and this is probably due to using XmlDocument to generate the Html
             Assert.AreEqual(@"<body> </body>", result);
         }
 
@@ -139,7 +157,6 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            // Not show that <body> is allowd to be self closing tag but have tested that the HtmlToPdf library is happy with it and this is probably due to using XmlDocument to generate the Html
             Assert.AreEqual(@"<body>  </body>", result);
         }
 
@@ -150,7 +167,6 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            // Not show that <body> is allowd to be self closing tag but have tested that the HtmlToPdf library is happy with it and this is probably due to using XmlDocument to generate the Html
             Assert.AreEqual(@"<body>test </body>", result);
         }
 
@@ -161,7 +177,6 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            // Not show that <body> is allowd to be self closing tag but have tested that the HtmlToPdf library is happy with it and this is probably due to using XmlDocument to generate the Html
             Assert.AreEqual(@"<body>.nonesense </body>", result);
         }
 
@@ -174,6 +189,18 @@ namespace PdfCreator.Tests
 
             _sut.Execute(commands);
         }
+
+        [TestMethod]
+        public void Should_Return_Correctly_Encoded_Characters()
+        {
+            var commands = new string[] { "Unicode quote chars “Lorem ipsum” & an ampersand character" };
+
+            var result = _sut.Execute(commands);
+
+            // Note I have put this string into ...\PdfCreator.Console\OtherInputs\Random.txt to check that the html encoded entities for example &amp; to eventually get converted back to original & in the pdf output
+            Assert.AreEqual(@"<body>Unicode quote chars “Lorem ipsum” &amp; an ampersand character </body>", result);
+        }
+
 
         [TestInitialize]
         public void TestInitialize()

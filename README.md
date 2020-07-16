@@ -50,7 +50,7 @@ The other class is just the tests for CommandManager as that hits a lot of the o
 
 It does produce the output you asked for but not sure how brittle it is as I haven't finished writing all the tests for the edge cases. 
 Have done the obvious ones like passing in null's, empty arrays, empty strings, etc 
-Note I think there's small bug in that the paragraph containers get embedded inside each other which doesn't seem to affect the output but is next on my list to fix but I've gone over the 4 hour time limit suggested so might submit this as is
+I've gone over the 4 hour time limit suggested so might submit this as is but ...
 
 Other failings I can think of:
 

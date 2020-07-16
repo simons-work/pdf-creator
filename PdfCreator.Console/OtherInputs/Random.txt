@@ -1,4 +1,4 @@
-﻿Well that was
+﻿Just checking it handles Unicode quote chars “Lorem ipsum” & an ampersand character
 .paragraph
 Well that 
 .paragraph
