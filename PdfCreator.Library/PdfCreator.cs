@@ -11,6 +11,7 @@ namespace PdfCreator.Library
             _appConfiguration = appConfiguration;
             _commandManager = commandManager;
             _htmlToPdfConverter = htmlToPdfConverter;
+            _htmlDocument = htmlDocument;
         }
 
         public void CreatePdfOutputFromCommandInput()
