@@ -1,25 +1,13 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
-    public class LargeCommand : ICommand
+    public class LargeCommand : CommandBase, ICommand
     {
-        public string Name { get => ".large"; }
-        public string HtmlTagToEmit { get => "h1"; }
+        public override string Name { get => ".large"; }
+        public override string HtmlTagToEmit { get => "h1"; }
 
-        public LargeCommand(IHtmlDocument htmlDocument)
-        {
-            _htmlDocument = htmlDocument;
-        }
-
-        void ICommand.Execute(params string[] args)
-        {
-            XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
-            _htmlDocument.AddDocumentChildNode(element, true);
-        }
-
-        private IHtmlDocument _htmlDocument;
+        public LargeCommand(IHtmlDocument htmlDocument) : base(htmlDocument) { }
     }
 }

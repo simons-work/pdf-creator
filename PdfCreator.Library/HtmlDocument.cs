@@ -12,6 +12,15 @@ namespace PdfCreator.Library
             CurrentIndentation = 0;
         }
 
+        public void OpenContainerNode(string nodeName, string attributeName, string attributeValue)
+        {
+            XElement element = CreateDocumentNode(nodeName);
+
+            if (attributeName != null) element.SetAttributeValue(attributeName, attributeValue);
+
+            AddDocumentChildNode(element, true);
+        }
+
         public XElement CreateDocumentNode(string name)
         {
             return new XElement(name);

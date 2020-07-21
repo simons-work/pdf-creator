@@ -87,7 +87,9 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p></p><p>some text </p></body>", result);
+            // PDF generator is happy with XHTML rather than HTML so going for <p/> rather than <p></p>
+            // but if this bothered you, you could add "element.Add(new XText(""));" into HtmlDocument.OpenContainerNode method which forces non self closing tag style
+            Assert.AreEqual(@"<body><p /><p>some text </p></body>", result);
         }
 
         [TestMethod]
