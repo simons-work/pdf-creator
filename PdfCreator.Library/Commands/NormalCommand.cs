@@ -1,24 +1,17 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System;
-using System.Xml;
 
 namespace PdfCreator.Library.Commands
 {
-    public class NormalCommand : ICommand
+    public class NormalCommand : CommandBase, ICommand
     {
-        public string Name { get => ".normal"; }
+        public override string Name { get => ".normal"; }
 
-        public NormalCommand(IHtmlDocument htmlDocument)
-        {
-            _htmlDocument = htmlDocument;
-        }
+        public NormalCommand(IHtmlDocument htmlDocument) : base(htmlDocument) { }
 
         void ICommand.Execute(params string[] args)
         {
             _htmlDocument.CloseCurrentContainerNode();
         }
-
-        private IHtmlDocument _htmlDocument;
     }
 }

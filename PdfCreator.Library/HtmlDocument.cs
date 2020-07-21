@@ -21,6 +21,12 @@ namespace PdfCreator.Library
             AddDocumentChildNode(element, true);
         }
 
+        public void CloseCurrentContainerNode()
+        {
+            // Updates the internal pointer to the current container node to be the parent, so in effect we're closing current node and all future additions will be at parent level
+            _currentContainerNode = _currentContainerNode.Parent as XElement;
+        }
+
         public XElement CreateDocumentNode(string name)
         {
             return new XElement(name);
@@ -35,12 +41,6 @@ namespace PdfCreator.Library
         {
             _currentContainerNode.Add(newChild);
             _currentContainerNode = isContainerNode ? _currentContainerNode.LastNode as XElement : _currentContainerNode;
-        }
-
-        public void CloseCurrentContainerNode()
-        {
-            // Updates the internal pointer to the current container node to be the parent, so in effect we're closing current node and all future additions will be at parent level
-            _currentContainerNode = _currentContainerNode.Parent as XElement;
         }
 
         public string PopulateHtmlTemplate(string htmlFragment)
