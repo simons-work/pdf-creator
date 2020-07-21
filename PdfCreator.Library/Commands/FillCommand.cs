@@ -1,7 +1,6 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
@@ -19,19 +18,19 @@ namespace PdfCreator.Library.Commands
 
         void ICommand.Execute(params string[] args)
         {
-            XmlElement currentContainer = _htmlDocument.CurrentContainer;
+            XElement currentContainer = _htmlDocument.CurrentContainer;
             
-            if (!string.IsNullOrEmpty(currentContainer.InnerXml)) 
+            if (!string.IsNullOrEmpty(currentContainer.Value)) 
             {
                 _htmlDocument.CloseCurrentContainerNode();
-                XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
+                XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
                 _htmlDocument.AddDocumentChildNode(element, true);
             }
 
             // Grab the container again as will have changed if the AddDocumentChildNode was invoked above
             currentContainer = _htmlDocument.CurrentContainer;
-            string existingAttribute = currentContainer.GetAttribute("style");
-            currentContainer.SetAttribute("style", string.Join(";", HtmlTagStyles, existingAttribute));
+            string existingAttribute = currentContainer.Attribute("style")?.Value;
+            currentContainer.SetAttributeValue("style", string.Join(";", HtmlTagStyles, existingAttribute));
         }
 
         private IHtmlDocument _htmlDocument;

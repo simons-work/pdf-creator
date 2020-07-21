@@ -2,6 +2,7 @@
 using PdfCreator.Library.Interfaces;
 using System;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
@@ -18,8 +19,8 @@ namespace PdfCreator.Library.Commands
 
         void ICommand.Execute(params string[] args)
         {
-            XmlElement element =_htmlDocument.CreateDocumentNode(HtmlTagToEmit);
-            element.SetAttribute("style", HtmlTagStyles);
+            XElement element =_htmlDocument.CreateDocumentNode(HtmlTagToEmit);
+            element.SetAttributeValue("style", HtmlTagStyles);
             _htmlDocument.AddDocumentChildNode(element, true);
         }
 

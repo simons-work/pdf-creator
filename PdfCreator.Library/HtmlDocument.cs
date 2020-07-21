@@ -1,5 +1,5 @@
 ﻿using PdfCreator.Library.Interfaces;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace PdfCreator.Library
 {
@@ -7,32 +7,31 @@ namespace PdfCreator.Library
     {
         public void Initialise()
         {
-            _document = new XmlDocument();
-            _document.LoadXml("<body></body>");
-            _currentContainerNode = _document.DocumentElement;
+            _document = XDocument.Parse("<body></body>");
+            _currentContainerNode = _document.Root;
             CurrentIndentation = 0;
         }
 
-        public XmlElement CreateDocumentNode(string name)
+        public XElement CreateDocumentNode(string name)
         {
-            return _document.CreateElement(name);
+            return new XElement(name);
         }
 
-        public XmlText CreateContentNode(string value)
+        public XText CreateContentNode(string value)
         {
-            return _document.CreateTextNode(value);
+            return new XText(value);
         }
 
-        public void AddDocumentChildNode(XmlNode newChild, bool isContainerNode)
+        public void AddDocumentChildNode(XNode newChild, bool isContainerNode)
         {
-            _currentContainerNode.AppendChild(newChild);
-            _currentContainerNode = isContainerNode ? _currentContainerNode.LastChild as XmlElement : _currentContainerNode;
+            _currentContainerNode.Add(newChild);
+            _currentContainerNode = isContainerNode ? _currentContainerNode.LastNode as XElement : _currentContainerNode;
         }
 
         public void CloseCurrentContainerNode()
         {
             // Updates the internal pointer to the current container node to be the parent, so in effect we're closing current node and all future additions will be at parent level
-            _currentContainerNode = _currentContainerNode.ParentNode as XmlElement;
+            _currentContainerNode = _currentContainerNode.Parent as XElement;
         }
 
         public string PopulateHtmlTemplate(string htmlFragment)
@@ -41,17 +40,16 @@ namespace PdfCreator.Library
             return htmlTemplate.Replace("<body></body>", htmlFragment);
         }
 
-        public XmlElement CurrentContainer { get => _currentContainerNode; }
+        public XElement CurrentContainer { get => _currentContainerNode; }
 
-        public string OuterHtml { get => _document.OuterXml; }
+        public string OuterHtml { get => _document.ToString(SaveOptions.DisableFormatting); }
 
         public int CurrentIndentation { get; set; }
 
         #region Private methods / members
 
-        private XmlDocument _document;
-        private XmlElement _currentContainerNode;
-        private readonly IHtmlDocument _htmlDocument;
+        private XDocument _document;
+        private XElement _currentContainerNode;
         private const string _htmlTemplate = "<!DOCTYPE html><html lang='en' xmlns='http://www.w3.org/1999/xhtml'><head><meta charset='utf-8' /><title></title><style>body { font-size:30px; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }</style></head><body></body></html>";
 
         #endregion

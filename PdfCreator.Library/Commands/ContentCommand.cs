@@ -1,7 +1,6 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
@@ -18,7 +17,7 @@ namespace PdfCreator.Library.Commands
         {
             if (args.Length > 0)
             {
-                XmlText element = _htmlDocument.CreateContentNode($"{args[0]} ");
+                XNode element = _htmlDocument.CreateContentNode($"{args[0]} ");
                 _htmlDocument.AddDocumentChildNode(element, false);
             }
         }

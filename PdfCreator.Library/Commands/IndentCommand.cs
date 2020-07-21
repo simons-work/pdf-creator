@@ -1,11 +1,7 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Configuration;
 using PdfCreator.Library.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
@@ -26,12 +22,12 @@ namespace PdfCreator.Library.Commands
             if (args.Length > 0)
             {
                 _htmlDocument.CloseCurrentContainerNode();
-                XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
+                XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
 
-                string existingAttribute = element.GetAttribute("style");
+                string existingAttribute = element.Attribute("style")?.Value;
                 string marginSize = GetCalculatedMarginSizeForIndent(args[0]).ToString();
                 string htmlTagStyles = HtmlTagStyles.Replace("{{n}}", marginSize);
-                element.SetAttribute("style", string.Join(";", htmlTagStyles, existingAttribute));
+                element.SetAttributeValue("style", string.Join(";", htmlTagStyles, existingAttribute));
 
                 _htmlDocument.AddDocumentChildNode(element, true);
             }

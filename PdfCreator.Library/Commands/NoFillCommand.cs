@@ -1,9 +1,6 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
@@ -20,7 +17,7 @@ namespace PdfCreator.Library.Commands
         void ICommand.Execute(params string[] args)
         {
             _htmlDocument.CloseCurrentContainerNode();
-            XmlElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
+            XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
             _htmlDocument.AddDocumentChildNode(element, true);
         }
 
