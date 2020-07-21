@@ -1,27 +1,22 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
-    public class ContentCommand : ICommand
+    public class ContentCommand : CommandBase, ICommand
     {
-        public string Name { get => "{Content}"; }
+        // This command name will never exist in the input file so it's just a made up command
+        // so we can use the same command lookup dictionary for all commands
+        public override string Name { get => "{Content}"; }
 
-        public ContentCommand(IHtmlDocument htmlDocument)
-        {
-            _htmlDocument = htmlDocument;
-        }
+        public ContentCommand(IHtmlDocument htmlDocument) : base(htmlDocument) { }
 
         void ICommand.Execute(params string[] args)
         {
             if (args.Length > 0)
             {
-                XNode element = _htmlDocument.CreateContentNode($"{args[0]} ");
-                _htmlDocument.AddDocumentChildNode(element, false);
+                _htmlDocument.AddContentNode($"{args[0]} ");
             }
         }
-
-        private IHtmlDocument _htmlDocument;
     }
 }

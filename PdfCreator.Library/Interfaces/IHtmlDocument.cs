@@ -6,6 +6,7 @@ namespace PdfCreator.Library.Interfaces
     public interface IHtmlDocument
     {
         void Initialise();
+        void AddContentNode(string content);
         void OpenContainerNode(string nodeName, string attributeName = null, string attributeValue = null);
         XElement CreateDocumentNode(string name);
         XText CreateContentNode(string value);
