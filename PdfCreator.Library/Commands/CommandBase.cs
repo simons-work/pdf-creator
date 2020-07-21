@@ -24,8 +24,13 @@ namespace PdfCreator.Library.Commands
         /// <param name="args"></param>
         void ICommand.Execute(params string[] args)
         {
+            OpenNewContainerNode();
+        }
+
+        public void OpenNewContainerNode()
+        {
             string attributeName = HtmlTagStyles != null ? "style" : null;
-            _htmlDocument.OpenContainerNode(HtmlTagToEmit, attributeName, HtmlTagStyles);
+            _htmlDocument.OpenNewContainerNode(HtmlTagToEmit, attributeName, HtmlTagStyles);
         }
 
         protected IHtmlDocument _htmlDocument;

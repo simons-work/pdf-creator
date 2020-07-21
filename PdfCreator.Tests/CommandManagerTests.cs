@@ -46,6 +46,16 @@ namespace PdfCreator.Tests
         }
 
         [TestMethod]
+        public void Should_Return_Header_Tag_When_Large_Command_Used()
+        {
+            var commands = new string[] { ".large", "heading", ".normal" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><h1>heading </h1></body>", result);
+        }
+
+        [TestMethod]
         public void Should_Return_Para_Tag_When_Para_Command_Used()
         {
             var commands = new string[] { ".paragraph", "some text" };

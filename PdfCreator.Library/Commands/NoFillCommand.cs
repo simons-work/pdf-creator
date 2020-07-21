@@ -4,23 +4,17 @@ using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
-    public class NoFillCommand : ICommand
+    public class NoFillCommand : CommandBase, ICommand
     {
-        public string Name { get => ".nofill"; }
-        public string HtmlTagToEmit { get => "p"; }
+        public override string Name { get => ".nofill"; }
+        public override string HtmlTagToEmit { get => "p"; }
 
-        public NoFillCommand(IHtmlDocument htmlDocument)
-        {
-            _htmlDocument = htmlDocument;
-        }
+        public NoFillCommand(IHtmlDocument htmlDocument) : base(htmlDocument) { }
 
         void ICommand.Execute(params string[] args)
         {
             _htmlDocument.CloseCurrentContainerNode();
-            XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
-            _htmlDocument.AddDocumentChildNode(element, true);
+            OpenNewContainerNode();
         }
-
-        private IHtmlDocument _htmlDocument;
     }
 }
