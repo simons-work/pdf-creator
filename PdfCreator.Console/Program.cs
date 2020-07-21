@@ -40,7 +40,13 @@ namespace PdfCreator.Console
             serviceCollection.AddSingleton<ICommandManager, CommandManager>();
             serviceCollection.AddSingleton<IHtmlDocument, HtmlDocument>();
             serviceCollection.AddSingleton<IHtmlToPdfConverter, HtmlToPdfConverter>();
-            serviceCollection.RegisterAllTypes<ICommand>(new[] { typeof(CommandManager).Assembly });
+
+            // Register all ICommand objects with exception of the base class
+            serviceCollection.RegisterAllTypes<ICommand>(
+                new[] { typeof(CommandManager).Assembly },
+                ServiceLifetime.Transient,
+                new[] { "CommandBase" }
+            );
         }
     }
 }
