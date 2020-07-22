@@ -2,7 +2,7 @@
 My PDF Document
 .normal
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -19,14 +19,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -43,14 +43,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -67,14 +67,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -91,14 +91,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -115,14 +115,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -139,14 +139,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -163,14 +163,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -187,14 +187,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -211,14 +211,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -235,14 +235,14 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
 , good luck!
 
 .paragraph
-This is my
+This is my 
 .italics
 very first 
 .regular
@@ -259,7 +259,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 anim id est laborum.”
 .nofill
 .indent -2
-Well that was
+Well that was 
 .bold
 exciting
 .regular
