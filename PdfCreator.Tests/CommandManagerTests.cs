@@ -27,7 +27,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><span style=""font-weight:bold"">line </span></body>", result);
+            Assert.AreEqual(@"<body><span style=""font-weight:bold"">line</span></body>", result);
         }
 
         public void Should_Return_Span_Tag_And_Should_Be_Closed_Correctly_When_Bold_Command_Used_And_No_Regular_Command()
@@ -36,7 +36,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><span style=""font-weight:bold"">line </span></body>", result);
+            Assert.AreEqual(@"<body><span style=""font-weight:bold"">line</span></body>", result);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><span style=""font-style:italic"">line </span></body>", result);
+            Assert.AreEqual(@"<body><span style=""font-style:italic"">line</span></body>", result);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><h1>heading </h1></body>", result);
+            Assert.AreEqual(@"<body><h1>heading</h1></body>", result);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p>some text </p></body>", result);
+            Assert.AreEqual(@"<body><p>some text</p></body>", result);
         }
 
 
@@ -107,7 +107,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p style=""text-align: justify;"">some text </p></body>", result);
+            Assert.AreEqual(@"<body><p style=""text-align: justify;"">some text</p></body>", result);
         }
 
         // The examples show fill command always follows paragraph command so what happens if omit the paragraph, perhaps the code should throw error
@@ -119,7 +119,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body style=""text-align: justify;"">some text </body>", result);
+            Assert.AreEqual(@"<body style=""text-align: justify;"">some text</body>", result);
         }
 
         [TestMethod]
@@ -142,7 +142,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p>initial text </p><p>some text </p></body>", result);
+            Assert.AreEqual(@"<body><p>initial text</p><p>some text</p></body>", result);
         }
 
         // Again the examples only show the nofill command being used after a fill comand as it's pointless operation because default for a pargraph is no justification 
@@ -156,7 +156,7 @@ namespace PdfCreator.Tests
 
             // PDF generator is happy with XHTML rather than HTML so going for <p/> rather than <p></p>
             // but if this bothered you, you could add "element.Add(new XText(""));" into HtmlDocument.OpenContainerNode method which forces non self closing tag style
-            Assert.AreEqual(@"<body><p /><p>some text </p></body>", result);
+            Assert.AreEqual(@"<body><p /><p>some text</p></body>", result);
         }
 
         [TestMethod]
@@ -166,7 +166,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p>initial text </p><p style=""text-align: justify;"">some text </p></body>", result);
+            Assert.AreEqual(@"<body><p>initial text</p><p style=""text-align: justify;"">some text</p></body>", result);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p>initial text </p><p style=""margin-left:4em;"">some text </p></body>", result);
+            Assert.AreEqual(@"<body><p>initial text</p><p style=""margin-left:4em;"">some text</p></body>", result);
         }
 
         [TestMethod]
@@ -186,7 +186,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p>initial text </p><p style=""margin-left:4em;"">some text </p><p style=""margin-left:0em;"">more text </p></body>", result);
+            Assert.AreEqual(@"<body><p>initial text</p><p style=""margin-left:4em;"">some text</p><p style=""margin-left:0em;"">more text</p></body>", result);
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body><p>some paragraph ... <span style=""font-style:italic"">content </span>and some further text </p></body>", result);
+            Assert.AreEqual(@"<body><p>some paragraph ...<span style=""font-style:italic"">content</span>and some further text</p></body>", result);
         }
 
         [TestMethod]
@@ -216,7 +216,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body> </body>", result);
+            Assert.AreEqual(@"<body></body>", result);
         }
 
         [TestMethod]
@@ -226,7 +226,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body>  </body>", result);
+            Assert.AreEqual(@"<body> </body>", result);
         }
 
         [TestMethod]
@@ -236,7 +236,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body>test </body>", result);
+            Assert.AreEqual(@"<body>test</body>", result);
         }
 
         [TestMethod]
@@ -246,7 +246,7 @@ namespace PdfCreator.Tests
 
             var result = _sut.Execute(commands);
 
-            Assert.AreEqual(@"<body>.nonesense </body>", result);
+            Assert.AreEqual(@"<body>.nonesense</body>", result);
         }
 
 
@@ -267,7 +267,7 @@ namespace PdfCreator.Tests
             var result = _sut.Execute(commands);
 
             // Note I have put this string into ...\PdfCreator.Console\OtherInputs\Random.txt to check that the html encoded entities for example &amp; to eventually get converted back to original & in the pdf output
-            Assert.AreEqual(@"<body>Unicode quote chars “Lorem ipsum” &amp; an ampersand character </body>", result);
+            Assert.AreEqual(@"<body>Unicode quote chars “Lorem ipsum” &amp; an ampersand character</body>", result);
         }
 
 

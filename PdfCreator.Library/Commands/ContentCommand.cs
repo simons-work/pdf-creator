@@ -15,7 +15,7 @@ namespace PdfCreator.Library.Commands
         {
             if (args.Length > 0)
             {
-                _htmlDocument.AddNewContentNode($"{args[0]} ");
+                _htmlDocument.AddNewContentNode($"{args[0]}");
             }
         }
     }
