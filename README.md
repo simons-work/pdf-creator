@@ -14,6 +14,23 @@ It's coded in VS 2019 community edition. Published to git hub repo so hopefully 
 
 Hopefully you can just F5 it, the appSettings.json has the input / output paths and they are relative so hopefully should read/write to the top level console app folder
 
+The file locations and Identation multiplier are configurable using json config or command line. 
+
+The application by default will use Sample.txt as input and write to a file called Output.pdf
+
+These are all referenced by json config at location `..\..\..` so in theory will be at root of the PdfCreator.Console application
+
+I have included SampleOutput.pdf which is the output which was produced by the program when I ran it
+
+Note if you want to specify arguments with command line rather than editing json file:
+
+```
+cd ...PdfCreator.Console\bin\Debug\netcoreapp3.1
+./PdfCreator.Console.exe --config:OutputFilename=myfile.pdf
+```
+
+Would create the output as file 'myfile.pdf' in current directory. Other options are --config:InputFilename=...  and --config:IndentMultiplierForMarginSize=4
+
 ## Notes about the approach: ##
 
 As I imagine you did not want us to reinvent the wheel with regard to the actual generation of a pdf, I choose one of the existing libraries for this.
