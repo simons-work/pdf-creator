@@ -1,19 +1,17 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Configuration;
 using PdfCreator.Library.Interfaces;
-using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
-    public class IndentCommand : ICommand
+    public class IndentCommand : CommandBase, ICommand
     {
-        public string Name { get => ".indent"; }
-        public string HtmlTagToEmit { get => "p"; }
-        public string HtmlTagStyles { get => "margin-left:{{n}}em"; }
+        public override string Name { get => ".indent"; }
+        public override string HtmlTagToEmit { get => "p"; }
+        public override string HtmlTagStyles { get => "margin-left:{{n}}em"; }
 
-        public IndentCommand(IHtmlDocument htmlDocument, IAppConfiguration appConfiguration)
+        public IndentCommand(IHtmlDocument htmlDocument, IAppConfiguration appConfiguration) : base(htmlDocument)
         {
-            _htmlDocument = htmlDocument;
             _appConfiguration = appConfiguration;
         }
 
@@ -21,15 +19,11 @@ namespace PdfCreator.Library.Commands
         {
             if (args.Length > 0)
             {
-                _htmlDocument.CloseCurrentContainerNode();
-                XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
-
-                string existingAttribute = element.Attribute("style")?.Value;
                 string marginSize = GetCalculatedMarginSizeForIndent(args[0]).ToString();
-                string htmlTagStyles = HtmlTagStyles.Replace("{{n}}", marginSize);
-                element.SetAttributeValue("style", string.Join(";", htmlTagStyles, existingAttribute));
 
-                _htmlDocument.AddDocumentChildNode(element, true);
+                _htmlDocument.CloseCurrentContainerNode();
+                _htmlDocument.OpenNewContainerNode(HtmlTagToEmit);
+                _htmlDocument.UpdateCurrentContainerNodeAttributes("style", HtmlTagStyles.Replace("{{n}}", marginSize));
             }
         }
 
@@ -46,7 +40,6 @@ namespace PdfCreator.Library.Commands
             return _htmlDocument.CurrentIndentation * _appConfiguration.IndentMultiplierForMarginSize;
         }
 
-        private IHtmlDocument _htmlDocument;
         private readonly IAppConfiguration _appConfiguration;
     }
 }
