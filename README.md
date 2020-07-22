@@ -2,7 +2,7 @@
 
 *UPDATES 22/07*
 ---
-*I created new feature branch (link [here](https://github.com/simons-work/pdf-creator/tree/improvements)) from pdf-creator master branch yesterday evening as i wanted to make a few improvements and not intefere with the original version already submitted*
+*I created new feature branch (link [here](https://github.com/simons-work/pdf-creator/tree/improvements)) from pdf-creator master branch yesterday evening as i wanted to make a few improvements nut not intefere with the original version already submitted*
 - Swapped XmlDocument for XDocument... apart from being a slightly newer way of doing things, it's saves 1 line of code when initialising and might save about approx 30% memory
 - Wanted to move any knowledge of Xml elements out of the Command objects (into HtmlDocument) to improve Single Responsibility principle (have done this for 8 out of 10 commands so far - working on last two)
 - Created Abstract base class for Commands to handle the common logic for at least 4 of the commands which is to request HtmlDocument to create a 'container' doc node
@@ -65,12 +65,11 @@ I've gone over the 4 hour time limit suggested so might submit this as is but ..
 
 - Not disposing of the ~~XmlDocument~~XDocument object correctly at moment.
 
-- ~~Have cloned the 2 setup methods from Console App into the one of the Unit tests TestSetup methods which isn't very DRY~~ (fixed in new feature branch (link [here](https://github.com/simons-work/pdf-creator/tree/improvements)) on 22/07)
+- Have cloned the 2 setup methods from Console App into the one of the Unit tests TestSetup methods which isn't very DRY
 
 - ~~Not sure if making most of the participating objects singletons is what you do with Command design pattern. Normally e.g. in bank account, the Withdrawal command would be instantied with the data it needed. So an instance would be constructed and at some point destroyed~~ Actually having thought about this, in my original version the Command Objects are not strictly singletons, as I registered them as Transient instances with MS DependencyInjection framework. However it's fair to say all 10 of them  are instantiated only once in the constructor of CommandManager by virtue of the collection of them being injected in and then me storing reference to them in the CommandLookup dictionary. Each one refers to the HtmlDocument as a singleton which i think makes sense as they should all be interacting with same instance of the 'receiver' object form the Command pattern. So maybe this is not the failing i thought it was?
 
-- Note: I think the ~~singleton~~ single-transient-instance-per-command approach for all the commands was to leverage functionality to have them all Register themselves automatically when the application starts up so that by time the application starts there is a map of command name -> command instance to execute the behaviour
-
+- I think the ~~singleton~~ single-transient-instance-per-command approach for all the commands was to leverage functionality to have them all Register themselves automatically when the application starts up so that by time the application starts there is a map of command name -> command instance to execute the behaviour
 
 # Finally some new thoughts about my approach (added 22/07) #
 
@@ -89,4 +88,6 @@ So the 10 commands could be viewed as 6 types of command grouped like this:
 | Content | This was a made up command to handle what to do with a line of input which is not a command, and in this case it should emit a 'text' element
 | Fill | This command does something unique in that it should update the current paragraph style to be 'justified'... However if the fill command came after some existing text inside a paragraph, the fill command should probably in my opinion, close the previous paragraph element, and start a new one, and updates it's style |
 | NoFill | If you were going from justified text to non justified text, then you really should start a new paragraph block so this command should essentially perform a close container, followed a open new container |
-| Indent | You would think this should just apply a style e.g. a margin to the existing paragraph container, however again like NoFill, Fill, imagine you gave command to Indent after already including 1 or more lines of text in paragraph, so i thought it should close existing container element if necessary and start new one |
+| Indent | You would think this should just apply a style e.g. a margin to the existing paragraph container, however again like NoFill, Fill, imagine you gave command to Indent after already including 1 or more lines of text in paragraph, so i thought it should close existing container element if necessary and start new one | 
+
+
