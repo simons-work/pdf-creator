@@ -18,7 +18,7 @@ namespace PdfCreator.Library
             AddDocumentChildNode(element, false);
         }
 
-        public void OpenNewContainerNode(string nodeName, string attributeName, string attributeValue)
+        public void OpenNewContainerNode(string nodeName, string attributeName = null, string attributeValue = null)
         {
             XElement element = CreateDocumentNode(nodeName);
 
@@ -27,10 +27,21 @@ namespace PdfCreator.Library
             AddDocumentChildNode(element, true);
         }
 
+        public void UpdateCurrentContainerNodeAttributes(string attributeName, string attributeValue)
+        {
+            string existingAttribute = _currentContainerNode.Attribute(attributeName)?.Value;
+            _currentContainerNode.SetAttributeValue(attributeName, string.Join(";", attributeValue, existingAttribute));
+        }
+
         public void CloseCurrentContainerNode()
         {
             // Updates the internal pointer to the current container node to be the parent, so in effect we're closing current node and all future additions will be at parent level
             _currentContainerNode = _currentContainerNode.Parent as XElement;
+        }
+
+        public bool IsCurrentContainerNodeEmpty 
+        { 
+            get => string.IsNullOrEmpty(CurrentContainer?.Value); 
         }
 
         public XElement CreateDocumentNode(string name)

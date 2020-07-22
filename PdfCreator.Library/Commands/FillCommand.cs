@@ -4,35 +4,28 @@ using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
-    public class FillCommand : ICommand
+    public class FillCommand : CommandBase, ICommand
     {
-        public string Name { get => ".fill"; }
-        public string HtmlTagToEmit { get => "p"; }
+        public override string Name { get => ".fill"; }
+        public override string HtmlTagToEmit { get => "p"; }
 
-        public string HtmlTagStyles { get => "text-align: justify"; }
+        public override string HtmlTagStyles { get => "text-align: justify"; }
 
-        public FillCommand(IHtmlDocument htmlDocument)
-        {
-            _htmlDocument = htmlDocument;
-        }
+        public FillCommand(IHtmlDocument htmlDocument) : base(htmlDocument) { }
 
+        /// <summary>
+        /// Fill command Execute behaviour will just udpate the existing container style with justification style if it's empty, otherwise it will start a new container so it can have it's style set independently
+        /// </summary>
+        /// <param name="args"></param>
         void ICommand.Execute(params string[] args)
         {
-            XElement currentContainer = _htmlDocument.CurrentContainer;
-            
-            if (!string.IsNullOrEmpty(currentContainer.Value)) 
+            if (!_htmlDocument.IsCurrentContainerNodeEmpty) 
             {
                 _htmlDocument.CloseCurrentContainerNode();
-                XElement element = _htmlDocument.CreateDocumentNode(HtmlTagToEmit);
-                _htmlDocument.AddDocumentChildNode(element, true);
+                _htmlDocument.OpenNewContainerNode(HtmlTagToEmit);
             }
 
-            // Grab the container again as will have changed if the AddDocumentChildNode was invoked above
-            currentContainer = _htmlDocument.CurrentContainer;
-            string existingAttribute = currentContainer.Attribute("style")?.Value;
-            currentContainer.SetAttributeValue("style", string.Join(";", HtmlTagStyles, existingAttribute));
+            _htmlDocument.UpdateCurrentContainerNodeAttributes("style", HtmlTagStyles);
         }
-
-        private IHtmlDocument _htmlDocument;
     }
 }

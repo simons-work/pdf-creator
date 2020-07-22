@@ -1,9 +1,5 @@
 ﻿using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 namespace PdfCreator.Library.Commands
 {
