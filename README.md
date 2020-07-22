@@ -4,8 +4,9 @@
 ---
 *I created new feature branch (link [here](https://github.com/simons-work/pdf-creator/tree/improvements)) from pdf-creator master branch yesterday evening as i wanted to make a few improvements and not intefere with the original version already submitted*
 - Swapped XmlDocument for XDocument... apart from being a slightly newer way of doing things, it's saves 1 line of code when initialising and might save about approx 30% memory
-- Wanted to move any knowledge of Xml elements out of the Command objects (into HtmlDocument) to improve Single Responsibility principle (have done this for 8 out of 10 commands so far - working on last two)
+- Wanted to move any knowledge of Xml elements out of the Command objects (into HtmlDocument) to improve Single Responsibility principle 
 - Created Abstract base class for Commands to handle the common logic for at least 4 of the commands which is to request HtmlDocument to create a 'container' doc node
+- Fixed defect with trailing spaces in content nodes
 - Finally have done some amendments to the text below using striked font to correct some things and added new block of text to the end to clarify my approach
 ---
 
