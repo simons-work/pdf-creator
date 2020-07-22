@@ -1,10 +1,5 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PdfCreator.Library;
-using PdfCreator.Library.Commands.Interfaces;
 using PdfCreator.Library.Configuration;
-using PdfCreator.Library.Extensions;
 using PdfCreator.Library.Interfaces;
 using System;
 
@@ -28,7 +23,16 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Span_Tag_When_Bold_Command_Used()
         {
-            var commands = new string[] { ".bold", "line", ".regular" };
+            var commands = new[] { ".bold", "line", ".regular" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><span style=""font-weight:bold"">line </span></body>", result);
+        }
+
+        public void Should_Return_Span_Tag_And_Should_Be_Closed_Correctly_When_Bold_Command_Used_And_No_Regular_Command()
+        {
+            var commands = new[] { ".bold", "line" };
 
             var result = _sut.Execute(commands);
 
@@ -36,9 +40,29 @@ namespace PdfCreator.Tests
         }
 
         [TestMethod]
+        public void Should_Return_Span_Tag_And_Should_Be_Closed_Correctly_When_Bold_Command_Used_And_No_Text_Content_Or_Regular_Command()
+        {
+            var commands = new[] { ".bold" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><span style=""font-weight:bold"" /></body>", result);
+        }
+
+        [TestMethod]
+        public void Should_Return_Empty_Span_Tag_When_Bold_Command_Used_With_No_Text_Content_Before_Regular_Command()
+        {
+            var commands = new[] { ".bold", ".regular" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><span style=""font-weight:bold"" /></body>", result);
+        }
+
+        [TestMethod]
         public void Should_Return_Span_Tag_When_Italic_Command_Used()
         {
-            var commands = new string[] { ".italics", "line", ".regular" };
+            var commands = new[] { ".italics", "line", ".regular" };
 
             var result = _sut.Execute(commands);
 
@@ -48,7 +72,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Header_Tag_When_Large_Command_Used()
         {
-            var commands = new string[] { ".large", "heading", ".normal" };
+            var commands = new[] { ".large", "heading", ".normal" };
 
             var result = _sut.Execute(commands);
 
@@ -58,23 +82,54 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Para_Tag_When_Para_Command_Used()
         {
-            var commands = new string[] { ".paragraph", "some text" };
+            var commands = new[] { ".paragraph", "some text" };
 
             var result = _sut.Execute(commands);
 
             Assert.AreEqual(@"<body><p>some text </p></body>", result);
         }
 
-        // public void Should_Return_Para_With_Margin_When_Para_And_Ident_Command_Used()
+
+        [TestMethod]
+        public void Should_Return_Tag_Tag_And_Should_Be_Closed_Correctly_When_Para_Command_Used_And_No_Text_Content()
+        {
+            var commands = new[] { ".paragraph" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><p /></body>", result);
+        }
 
         [TestMethod]
         public void Should_Return_Para_With_Justify_Style_When_Para_And_Fill_Command_Used()
         {
-            var commands = new string[] { ".paragraph", ".fill", "some text" };
+            var commands = new[] { ".paragraph", ".fill", "some text" };
 
             var result = _sut.Execute(commands);
 
             Assert.AreEqual(@"<body><p style=""text-align: justify;"">some text </p></body>", result);
+        }
+
+        // The examples show fill command always follows paragraph command so what happens if omit the paragraph, perhaps the code should throw error
+        // I've made it more forgiving where it will just apply the justification style to whatever the parent is, in this case the entire document body
+        [TestMethod]
+        public void Should_Return_Body_With_Justify_Style_When_Para_Command_Forgotten_And_Fill_Command_Used()
+        {
+            var commands = new[] { ".fill", "some text" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body style=""text-align: justify;"">some text </body>", result);
+        }
+
+        [TestMethod]
+        public void Should_Return_Para_With_Justify_Style_When_Para_And_Fill_Command_Used_And_No_Text_Content()
+        {
+            var commands = new[] { ".paragraph", ".fill" };
+
+            var result = _sut.Execute(commands);
+
+            Assert.AreEqual(@"<body><p style=""text-align: justify;"" /></body>", result);
         }
 
         [TestMethod]
@@ -83,17 +138,19 @@ namespace PdfCreator.Tests
             // The thinking behind the nofill command is that it must have to close an existing container first
             // as I think it needs to start a new paragraph because if you were in middle of paragraph which was by virtue of fill command set to be justify, you'd need to start
             // a new line / new para at the very least to be able to see the difference in justification style
-            var commands = new string[] { ".paragraph", "initial text", ".nofill", "some text" };
+            var commands = new[] { ".paragraph", "initial text", ".nofill", "some text" };
 
             var result = _sut.Execute(commands);
 
             Assert.AreEqual(@"<body><p>initial text </p><p>some text </p></body>", result);
         }
 
+        // Again the examples only show the nofill command being used after a fill comand as it's pointless operation because default for a pargraph is no justification 
+        // so this test only exists to make sure something vaguely sensible is returned
         [TestMethod]
         public void Should_Return_Second_Para_With_No_Justify_Style_When_Para_With_Empty_Content_And_NoFill_Command_Used()
         {
-            var commands = new string[] { ".paragraph", ".nofill", "some text" };
+            var commands = new[] { ".paragraph", ".nofill", "some text" };
 
             var result = _sut.Execute(commands);
 
@@ -105,7 +162,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Second_Para_With_Justify_Style_When_Para_With_Content_And_Fill_Command_Used()
         {
-            var commands = new string[] { ".paragraph", "initial text", ".fill", "some text" };
+            var commands = new[] { ".paragraph", "initial text", ".fill", "some text" };
 
             var result = _sut.Execute(commands);
 
@@ -115,7 +172,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Second_Para_With_Indented_Style_When_Para_With_Content_And_Indent_Command_Used()
         {
-            var commands = new string[] { ".paragraph", "initial text", ".indent +1", "some text" };
+            var commands = new[] { ".paragraph", "initial text", ".indent +1", "some text" };
 
             var result = _sut.Execute(commands);
 
@@ -125,7 +182,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Third_Para_With_UnIndented_Style_When_Para_With_Content_And_Indent_Then_Unindent_Command_Used()
         {
-            var commands = new string[] { ".paragraph", "initial text", ".indent +1", "some text", ".indent -1", "more text" };
+            var commands = new[] { ".paragraph", "initial text", ".indent +1", "some text", ".indent -1", "more text" };
 
             var result = _sut.Execute(commands);
 
@@ -135,7 +192,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Para_Containing_Span_Tag_When_Para_And_Italic_Command_Used()
         {
-            var commands = new string[] { ".paragraph", "some paragraph ...", ".italics", "content", ".regular", "and some further text" };
+            var commands = new[] { ".paragraph", "some paragraph ...", ".italics", "content", ".regular", "and some further text" };
 
             var result = _sut.Execute(commands);
 
@@ -155,7 +212,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Whitespace_Document_When_Command_List_Has_One_Command_With_EmptyString()
         {
-            var commands = new string[] { "" };
+            var commands = new[] { "" };
 
             var result = _sut.Execute(commands);
 
@@ -165,7 +222,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Whitespace_Document_When_Command_List_Has_One_Command_With_Whitespace()
         {
-            var commands = new string[] { " " };
+            var commands = new[] { " " };
 
             var result = _sut.Execute(commands);
 
@@ -175,7 +232,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Minimal_Document_When_Command_List_Is_Just_Data()
         {
-            var commands = new string[] { "test" };
+            var commands = new[] { "test" };
 
             var result = _sut.Execute(commands);
 
@@ -185,7 +242,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Minimal_Document_When_Command_List_Has_Invalid_Command_And_Treated_As_Data()
         {
-            var commands = new string[] { ".nonesense" };
+            var commands = new[] { ".nonesense" };
 
             var result = _sut.Execute(commands);
 
@@ -205,7 +262,7 @@ namespace PdfCreator.Tests
         [TestMethod]
         public void Should_Return_Correctly_Encoded_Characters()
         {
-            var commands = new string[] { "Unicode quote chars “Lorem ipsum” & an ampersand character" };
+            var commands = new[] { "Unicode quote chars “Lorem ipsum” & an ampersand character" };
 
             var result = _sut.Execute(commands);
 
@@ -217,41 +274,7 @@ namespace PdfCreator.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var appConfiguration = serviceProvider.GetRequiredService<IAppConfiguration>();
-
-            LoadConfiguration(new string[0], appConfiguration);
-            
-            _sut = serviceProvider.GetRequiredService<ICommandManager>();
-        }
-
-        static private void LoadConfiguration(string[] args, IAppConfiguration appConfiguration)
-        {
-            IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("AppSettings.json", optional: true, reloadOnChange: true)
-                .Build();
-
-            configuration.Bind("config", appConfiguration);
-        }
-
-
-        static private void ConfigureServices(IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<IAppConfiguration, AppConfiguration>();
-            serviceCollection.AddSingleton<IPdfCreator, PdfCreator.Library.PdfCreator>();
-            serviceCollection.AddSingleton<ICommandManager, CommandManager>();
-            serviceCollection.AddSingleton<IHtmlDocument, HtmlDocument>();
-            serviceCollection.AddSingleton<IHtmlToPdfConverter, HtmlToPdfConverter>();
-
-            // Register all ICommand objects with exception of the base class
-            serviceCollection.RegisterAllTypes<ICommand>(
-                new[] { typeof(CommandManager).Assembly },
-                ServiceLifetime.Transient, 
-                new[] { "CommandBase" }
-            );
+            _sut = AppInitialisation.GetRequiredService<ICommandManager>();
         }
 
         private ICommandManager _sut;

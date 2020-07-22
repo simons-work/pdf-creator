@@ -5,5 +5,7 @@
         string InputFilename { get; set; }
         string OutputFilename { get; set; }
         int IndentMultiplierForMarginSize { get; set; }
+
+        void Load(string[] args);
     }
 }
